@@ -46,12 +46,20 @@ export const fetchSampleDetail = sampleId => {
   };
 };
 
-const getFilterValues = filter => ({
-  afterDate: filter.get('afterDate', null),
-  beforeDate: filter.get('beforeDate', null),
-  regionKey: filter.get('regionKey', null),
-  facilityKey: filter.get('facilityKey', null)
-});
+const getFilterValues = filter => {
+  if (filter) {
+    return {
+      afterDate: filter.get('afterDate', null),
+      beforeDate: filter.get('beforeDate', null),
+      regionKey: filter.get('regionKey', null),
+      facilityKey: filter.get('facilityKey', null)
+    };
+  }
+
+  return {
+    afterDate: null, beforeDate: null, regionKey: null, facilityKey: null,
+  };
+};
 
 const receiveSampleDetail = (data) => ({
   type: action.RECEIVE_SAMPLE_DETAIL,
@@ -96,6 +104,7 @@ const receiveSummary = ({sampleIds, artifacts, labTests, totals}) =>
 export const fetchSummary = (summaryFilter) => {
   return dispatch => {
     dispatch(requestSummary(summaryFilter));
+
     return api.getSummary(getFilterValues(summaryFilter), (err, data) => {
       if (err) {
         dispatch(fetchSummaryFailure(err));

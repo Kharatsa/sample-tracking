@@ -1,11 +1,23 @@
 import {createSelector} from 'reselect';
 
-const getIsFetchingData = (state) => state.isFetchingData;
-const getIsFetchingMetadata = (state) => state.isFetchingMetadata;
+const getIsMetadataAvailable = state => state.isMetadataAvailable;
+const getIsChangesAvailable = state => state.isChangesAvailable;
+const getIsSummaryAvailable = state => state.isSummaryAvailable;
+const getIsTATAvailable = state => state.isTATAvailable;
 
-export const getIsLoading = createSelector(
-  [getIsFetchingMetadata, getIsFetchingData],
-  (isMetaLoading, isFetchingData) => {
-    return (isFetchingData || isMetaLoading);
-  }
+const allTrue = (...args) => args.every((arg) => !!arg);
+
+export const getIsChangesReady = createSelector(
+  [getIsMetadataAvailable, getIsChangesAvailable],
+  allTrue,
+);
+
+export const getIsTATReady = createSelector(
+  [getIsMetadataAvailable, getIsTATAvailable],
+  allTrue,
+);
+
+export const getIsSummaryReady = createSelector(
+  [getIsMetadataAvailable, getIsSummaryAvailable],
+  allTrue,
 );

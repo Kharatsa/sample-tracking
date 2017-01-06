@@ -9,11 +9,9 @@ import Changes from './ChangesContainer';
 import Sample from './SampleContainer';
 import ChangesExportLink from './ChangesExportLinkContainer';
 import TurnArounds from './TurnAroundsContainer';
-import SummaryTabs from './SummaryTabContainer';
 import StageCounts2 from './StageCountsContainer2';
 import StageCounts3 from './StageCountsContainer3';
 import LabTestCounts from './LabTestsContainer';
-
 
 export {
   App,
@@ -27,7 +25,6 @@ export {
   Sample,
   ChangesExportLink,
   TurnArounds,
-  SummaryTabs,
   StageCounts2,
   LabTestCounts,
   StageCounts3,

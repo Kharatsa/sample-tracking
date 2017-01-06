@@ -3,10 +3,9 @@ import {SummaryCounts} from '../components';
 
 export const SummaryCountsContainer = connect(
   state => ({
-    isFetchingData: state.isFetchingData,
     numSampleIds: state.summaryTotalSampleIds,
     numArtifacts: state.summaryTotalArtifacts,
-    numLabTests: state.summaryTotalLabTests
+    numLabTests: state.summaryTotalLabTests,
   })
 )(SummaryCounts);
 

@@ -2,20 +2,14 @@ import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {Map as ImmutableMap, List} from 'immutable';
 import {SummaryFilter} from '../../api/records.js';
-import WaitOnFetch from '../WaitOnFetch.jsx';
 import StageSampleIdCounts from './StageSampleIdCounts';
 import StageArtifactCounts from './StageArtifactCounts';
 import StageLabCounts from './StageLabCounts';
-
-const WrappedSampleIdCounts = WaitOnFetch(StageSampleIdCounts);
-const WrappedArtifactCounts = WaitOnFetch(StageArtifactCounts);
-const WrappedLabCounts = WaitOnFetch(StageLabCounts);
 
 export const StageCounts = React.createClass({
   propTypes: {
     artifactStageCounts: PropTypes.instanceOf(List).isRequired,
     fetchSummary: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     labTestCounts: PropTypes.instanceOf(List).isRequired,
     metaArtifacts: PropTypes.instanceOf(ImmutableMap),
     metaStages: PropTypes.instanceOf(ImmutableMap),
@@ -46,7 +40,6 @@ export const StageCounts = React.createClass({
 
   render() {
     const {
-      isLoading,
       metaStages, sampleIdsStageCounts,
       metaArtifacts, artifactStageCounts,
       metaStatuses, metaLabTests, labTestCounts
@@ -55,23 +48,20 @@ export const StageCounts = React.createClass({
     return (
       <div className='pure-g'>
         <div className='pure-u-1 pure-u-lg-1-2'>
-          <WrappedArtifactCounts
-            isLoading={isLoading}
+          <StageArtifactCounts
             metaStages={metaStages}
             metaArtifacts={metaArtifacts}
             artifactStageCounts={artifactStageCounts}
           />
         </div>
         <div className='pure-u-1 pure-u-lg-1-2'>
-          <WrappedSampleIdCounts
-            isLoading={isLoading}
+          <StageSampleIdCounts
             metaStages={metaStages}
             sampleIdsStageCounts={sampleIdsStageCounts}
           />
         </div>
         <div className='pure-u-1'>
-          <WrappedLabCounts
-            isLoading={isLoading}
+          <StageLabCounts
             metaStatuses={metaStatuses}
             metaLabTests={metaLabTests}
             labTestCounts={labTestCounts}

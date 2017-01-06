@@ -13,7 +13,6 @@ export const Root = ({store}) => {
     devTools = <DevTools />;
   }
 
-  console.debug('history=', browserHistory);
   return (
     <Provider store={store}>
       <div>

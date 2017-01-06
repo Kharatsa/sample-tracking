@@ -1,21 +1,17 @@
 import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {List} from 'immutable';
-import WaitOnFetch from '../WaitOnFetch.jsx';
 import StageDatesChart from './StageDatesChart';
-
-const StageDatesChartWrapped = WaitOnFetch(StageDatesChart);
 
 export const StageDatesCounts = React.createClass({
   propTypes: {
     fetchDateSummary: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     summaryFilter: PropTypes.object,
     stageDates: PropTypes.instanceOf(List).isRequired,
     stageCountsChartData: PropTypes.arrayOf(PropTypes.shape({
       stage: PropTypes.string,
       data: PropTypes.arrayOf(PropTypes.number)
-    })).isRequired
+    })).isRequired,
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -38,11 +34,10 @@ export const StageDatesCounts = React.createClass({
   },
 
   render() {
-    const {isLoading, stageDates, stageCountsChartData} = this.props;
+    const {stageDates, stageCountsChartData} = this.props;
 
     return (
-      <StageDatesChartWrapped
-        isLoading={isLoading}
+      <StageDatesChart
         stageDates={stageDates}
         stageCountsChartData={stageCountsChartData}
       />

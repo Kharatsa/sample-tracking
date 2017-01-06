@@ -2,29 +2,18 @@ import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {Map as ImmutableMap, List} from 'immutable';
 import {SummaryFilter} from '../../api/records.js';
-import WaitOnFetch from '../WaitOnFetch.jsx';
 import StageSampleIdCounts from './StageSampleIdCounts';
 import StageArtifactCounts4 from './StageArtifactCounts4';
 import StageArtifactCounts5 from './StageArtifactCounts5';
-import StageLabCounts from './StageLabCounts';
-
-const WrappedSampleIdCounts = WaitOnFetch(StageSampleIdCounts);
-const WrappedArtifactCounts4 = WaitOnFetch(StageArtifactCounts4);
-const WrappedArtifactCounts5 = WaitOnFetch(StageArtifactCounts5);
-const WrappedLabCounts = WaitOnFetch(StageLabCounts);
 
 export const StageCounts3 = React.createClass({
   propTypes: {
-    artifactStageCounts: PropTypes.instanceOf(List).isRequired,
     fetchSummary: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    labTestCounts: PropTypes.instanceOf(List).isRequired,
-    metaArtifacts: PropTypes.instanceOf(ImmutableMap),
-    metaStages: PropTypes.instanceOf(ImmutableMap),
-    metaStatuses: PropTypes.instanceOf(ImmutableMap),
-    metaLabTests: PropTypes.instanceOf(ImmutableMap),
     summaryFilter: PropTypes.instanceOf(SummaryFilter).isRequired,
     sampleIdsStageCounts: PropTypes.instanceOf(List).isRequired,
+    artifactStageCounts: PropTypes.instanceOf(List).isRequired,
+    metaStages: PropTypes.instanceOf(ImmutableMap).isRequired,
+    metaArtifacts: PropTypes.instanceOf(ImmutableMap).isRequired,
   },
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -48,33 +37,27 @@ export const StageCounts3 = React.createClass({
 
   render() {
     const {
-      isLoading,
-      metaStages, sampleIdsStageCounts,
-      metaArtifacts, artifactStageCounts,
-      metaStatuses, metaLabTests, labTestCounts
+      sampleIdsStageCounts, artifactStageCounts, metaStages, metaArtifacts,
     } = this.props;
 
     return (
       <div className='pure-g'>
         <div className='pure-u-1 pure-u-md-1-2'>
-          <WrappedArtifactCounts4
-            isLoading={isLoading}
+          <StageArtifactCounts4
             metaStages={metaStages}
             metaArtifacts={metaArtifacts}
             artifactStageCounts={artifactStageCounts}
           />
         </div>
       <div className='pure-u-1 pure-u-md-1-2'>
-          <WrappedArtifactCounts5
-            isLoading={isLoading}
+          <StageArtifactCounts5
             metaStages={metaStages}
             metaArtifacts={metaArtifacts}
             artifactStageCounts={artifactStageCounts}
           />
         </div>
       <div className='pure-u-1 pure-u-lg-1-1'>
-          <WrappedSampleIdCounts
-            isLoading={isLoading}
+          <StageSampleIdCounts
             metaStages={metaStages}
             sampleIdsStageCounts={sampleIdsStageCounts}
           />

@@ -1,13 +1,10 @@
 import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import WaitOnFetch from './WaitOnFetch.jsx';
 import SampleDetail from './SampleDetail';
-
-const WrappedSampleDetail = WaitOnFetch(SampleDetail);
 
 export const Sample = React.createClass({
   propTypes: {
-    isLoading: PropTypes.bool.isRequired,
+    isReady: PropTypes.bool.isRequired,
     params: PropTypes.shape({sampleId: PropTypes.string}),
     fetchSampleDetail: PropTypes.func.isRequired,
   },
@@ -23,7 +20,7 @@ export const Sample = React.createClass({
   },
 
   render() {
-    return <WrappedSampleDetail {...this.props} />;
+    return <SampleDetail {...this.props} />;
   }
 });
 

@@ -4,13 +4,12 @@ import SampleStage from './SampleStage';
 import SampleArtifacts from './SampleArtifacts';
 import SampleTests from './SampleTests';
 import {ChangesTable} from '../Changes';
-import WaitOnFetch from '../WaitOnFetch.jsx';
 import MissingSample from './MissingSampleDetail';
 import {SCAN_STAGES} from '../../../common/sttworkflow';
 
 import {dereferenceChanges} from '../Changes/prepare.js';
 
-const _SampleDetail = (props) => {
+export const SampleDetail = (props) => {
   const {
     routeParams, changeIds, changesById,
     artifactsById, labTestsById, samplesById,
@@ -88,7 +87,5 @@ const _SampleDetail = (props) => {
 
   return <MissingSample sampleId={routeParams.sampleId} />;
 };
-
-export const SampleDetail = WaitOnFetch(_SampleDetail);
 
 export default SampleDetail;

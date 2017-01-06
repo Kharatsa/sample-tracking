@@ -1,12 +1,17 @@
 import {connect} from 'react-redux';
 import {fetchSummary} from '../actions/actioncreators';
-import {getIsLoading} from '../selectors/uiselectors';
-import { getArtifactStageCounts, getLabTestStatusCounts} from '../selectors/dashboardselectors';
+import {getIsSummaryReady} from '../selectors/uiselectors';
+import {
+  getArtifactStageCounts,
+  getLabTestStatusCounts
+} from '../selectors/dashboardselectors';
 import {LabTestCounts} from '../components';
+import {WaitOnReady, CallOnMount} from '../components/Utils';
 
 export const LabTestsContainer = connect(
   state => ({
-    isLoading: getIsLoading(state),
+    isReady: getIsSummaryReady(state),
+    onMountFunc: 'fetchSummary',
     summaryFilter: state.summaryFilter,
     metaStages: state.metaStagesByKey,
     metaArtifacts: state.metaArtifactsByKey,
@@ -16,6 +21,6 @@ export const LabTestsContainer = connect(
     labTestCounts: getLabTestStatusCounts(state)
   }),
   {fetchSummary},
-)(LabTestCounts);
+)(CallOnMount(WaitOnReady(LabTestCounts)));
 
 export default LabTestsContainer;

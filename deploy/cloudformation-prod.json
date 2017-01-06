@@ -31,17 +31,17 @@
       "Type": "String",
       "MinLength": "8",
       "MaxLength": "41",
-      "AllowedPattern" : "[a-zA-Z0-9]*",
       "ConstraintDescription" : "must contain only alphanumeric characters and be between 8 and 41 characters long."
     },
     "STTUser": {
-      "Description" : "The STT admin account username",
+      "Description" : "The STT dashboard admin account username",
       "Type": "String",
-      "MinLength": "1"
+      "MinLength": "3",
+      "MaxLength": "255"
     },
     "STTPassword": {
       "NoEcho": "true",
-      "Description" : "The STT admin account password",
+      "Description" : "The STT dashboard admin account password",
       "Type": "String",
       "MinLength": "8",
       "MaxLength": "41"
@@ -52,13 +52,14 @@
       "ConstraintDescription" : "Eg. kharasta.com"
     },
     "ODKUser": {
-      "Description" : "The ODK admin account username",
+      "Description" : "ODK submissions from STT account username",
       "Type": "String",
-      "MinLength": "1"
+      "MinLength": "3",
+      "MaxLength": "255"
     },
     "ODKPassword": {
       "NoEcho": "true",
-      "Description" : "The ODK admin account password",
+      "Description" : "ODK submissions from STT account password",
       "Type": "String",
       "MinLength": "8"
     },
@@ -67,6 +68,47 @@
       "Default": "false",
       "AllowedValues": ["true", "false"],
       "Description": "Enable test mode"
+    },
+    "DBInstanceType": {
+      "Type" : "String",
+      "Default" : "db.t2.micro",
+      "AllowedValues" : ["db.t2.micro",  "db.t2.small", "db.t2.medium", "db.t2.large"],
+      "Description" : "Enter database instance class. Default is db.t2.micro."
+    },
+    "DBStorageGB": {
+      "Type" : "Number",
+      "Default" : "5",
+      "MinValue" : "5",
+      "MaxValue" : "100",
+      "Description" : "Database storage initial allocation in GB. Default is 5."
+    },
+    "ServerInstanceType": {
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "AllowedValues" : ["t2.micro", "t2.small", "t2.medium", "t2.large"],
+      "Description" : "Enter server instance class. Default is t2.micro."
+    }
+  },
+  "Metadata" : {
+    "AWS::CloudFormation::Interface" : {
+      "ParameterGroups" : [
+        {
+          "Label" : { "default" : "Amazon RDS Configuration" },
+          "Parameters" : [ "DBUser", "DBPassword", "DBInstanceType", "DBStorageGB" ]
+        },
+        {
+          "Label" : { "default":"Amazon EC2 Configuration" },
+          "Parameters" : [ "AdminEmail", "TLDomain", "KeyName", "ServerInstanceType" ]
+        },
+        {
+          "Label" : { "default" : "Sample Transport Tracking (STT) Dashboard Configuration" },
+          "Parameters" : [ "STTUser", "STTPassword", "Test", "DBStorageGB" ]
+        },
+        {
+          "Label" : { "default" : "ODK Aggregate Configuration" },
+          "Parameters" : [ "ODKUser", "ODKPassword" ]
+        }
+      ]
     }
   },
   "Mappings" : {
@@ -96,8 +138,8 @@
       "Type" : "AWS::RDS::DBInstance",
       "Properties" : {
         "DBName" : "odk_stt",
-        "AllocatedStorage" : "5",
-        "DBInstanceClass" : "db.t2.medium",
+        "AllocatedStorage" : { "Ref": "DBStorageGB" },
+        "DBInstanceClass" : { "Ref": "DBInstanceType" },
         "Engine" : "MySQL",
         "EngineVersion" : "5.7",
         "MasterUsername" : { "Ref" : "DBUser" },
@@ -110,7 +152,7 @@
       "Properties" : {
         "ImageId" : { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "64"]},
         "KeyName" : { "Ref" : "KeyName" },
-				"InstanceType" : "t2.medium",
+				"InstanceType" : { "Ref": "ServerInstanceType" },
 				"SecurityGroups" : [ { "Ref" : "InstanceSecurityGroup" } ],
         "Tags": [{
           "Key" : "Name",

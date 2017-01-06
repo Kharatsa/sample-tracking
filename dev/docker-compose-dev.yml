@@ -13,7 +13,6 @@ services:
   server:
     container_name: app_stt
     image: kharatsa/strack
-    command: node_modules/.bin/nodemon app/server
     ports:
       - "8081:8081"
     volumes:
@@ -21,20 +20,11 @@ services:
       - ./log/:/var/log/stt/
       - stt_data:/var/lib/stt/
       - /var/www/stt/node_modules/
+    env_file: ./dev/stt_dev.env
     environment:
-      - NODE_ENV=development
-      - STT_LISTEN_PORT=8081
-      - STT_LISTEN_HOST=0.0.0.0
-      - STT_PUBLIC_URL=http://localhost:8081
-      - ODK_PROTOCOL=http
+      - NODE_ENV
       - ODK_HOSTNAME=odk
-      - ODK_USERNAME=stt
-      - ODK_PASSWORD=password
-      - STT_DB_USER=stt
-      - STT_DB_PASSWORD=password
-      - STT_DB_NAME=stt
       - STT_DB_HOST=db
-      - STT_DB_PORT=3306
     depends_on:
       - db
       - odk
@@ -55,8 +45,7 @@ services:
       - ODK_PORT=8080
       - ODK_ADMIN_USERNAME=admin
       - MYSQL_HOSTNAME=db
-    env_file:
-      - ./dev/mysql_dev.env
+    env_file: ./dev/mysql_dev.env
   db:
     build:
       context: .

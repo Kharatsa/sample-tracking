@@ -1,12 +1,14 @@
 import {connect} from 'react-redux';
 import {fetchChanges} from '../actions/actioncreators';
-import {getIsLoading} from '../selectors/uiselectors';
+import {getIsChangesReady} from '../selectors/uiselectors';
 import {getChangesDetail} from '../selectors/changes_selectors';
 import Changes from '../components/Changes';
+import {WaitOnReady, CallOnMount} from '../components/Utils';
 
 export const ChangesContainer = connect(
   state => ({
-    isLoading: getIsLoading(state),
+    isReady: getIsChangesReady(state),
+    onMountFunc: 'fetchChanges',
     changes: getChangesDetail(state),
     metaStages: state.metaStagesByKey,
     metaStatuses: state.metaStatusesByKey,
@@ -17,6 +19,6 @@ export const ChangesContainer = connect(
     summaryFilter: state.summaryFilter,
   }),
   {fetchChanges},
-)(Changes);
+)(CallOnMount(WaitOnReady(Changes)));
 
 export default ChangesContainer;

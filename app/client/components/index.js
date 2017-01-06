@@ -12,16 +12,7 @@ import StageCounts3 from './Dashboard/StageCounts3';
 import LabTestCounts from './Dashboard/LabTestCounts';
 
 export {
-  App,
-  Pagination,
-  SideMenuLayout,
-  Changes,
-  Sample,
-  StageDatesCounts,
-  SummaryCounts,
-  StageCounts,
-  SummaryTabs,
-  StageCounts2,
-  LabTestCounts,
-  StageCounts3, 
+  App, Pagination, SideMenuLayout, Changes, Sample, StageDatesCounts,
+  SummaryCounts, StageCounts, SummaryTabs, StageCounts2, LabTestCounts,
+  StageCounts3,
 };

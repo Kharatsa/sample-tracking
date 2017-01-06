@@ -141,5 +141,5 @@ export const getEndToEndTAT = createSelector(
     tats
     .filter(tat => isEndToEndTAT(tat.get('from'), tat.get('to')))
     .first() ||
-    TurnAround())
+    null)
 );

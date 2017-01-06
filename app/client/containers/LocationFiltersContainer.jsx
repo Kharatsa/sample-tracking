@@ -4,19 +4,20 @@ import {LocationFilters} from '../components/DashboardControls';
 import {
   getMetaRegions, getFilteredMetaFacilities
 } from '../selectors/metadataselectors';
-import {getIsLoading} from '../selectors/uiselectors';
+import {getIsSummaryReady} from '../selectors/uiselectors';
+import {WaitOnReady} from '../components/Utils';
 
 export const LocationFilterContainer = connect(
   state => ({
-    isLoading: getIsLoading(state),
-    metaRegionsByKey: state.metaRegionsByKey,
-    metaFacilitiesByKey: state.metaRegionsByKey,
+    isReady: getIsSummaryReady(state),
     filterRegionKey: state.summaryFilter.get('regionKey', null),
     filterFacilityKey: state.summaryFilter.get('facilityKey', null),
+    filteredMetaFacilities: getFilteredMetaFacilities(state),
+    metaRegionsByKey: state.metaRegionsByKey,
+    metaFacilitiesByKey: state.metaRegionsByKey,
     metaRegions: getMetaRegions(state),
-    filteredMetaFacilities: getFilteredMetaFacilities(state)
   }),
   {changeSummaryFilter},
-)(LocationFilters);
+)(WaitOnReady(LocationFilters));
 
 export default LocationFilterContainer;

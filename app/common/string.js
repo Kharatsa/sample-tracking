@@ -6,12 +6,12 @@ const escapeRegExp = str => {
 
 // via MDN
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt#A_stricter_parse_function
-function filterInt(value) {
+const filterInt = value => {
   if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) {
     return Number(value).valueOf();
   }
   return NaN;
-}
+};
 
 // via MDN
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat#A_stricter_parse_function
@@ -28,7 +28,7 @@ const filterFloat = value => {
  * @param  {string} text [description]
  * @return {number|boolean|string|Date|null|undefined}
  */
-function parseText(text) {
+const parseText = text => {
   // undefined conversion
   if (typeof text === 'undefined' || text === 'undefined') {
     return undefined;
@@ -65,11 +65,31 @@ function parseText(text) {
   }
 
   return text;
-}
+};
+
+/**
+ * Capitalizes a string
+ *
+ * @param {string} text
+ * @return {string}
+ */
+const capitalize = str => {
+  if (!str) {
+    return str;
+  }
+  if (str.length === 1) {
+    return str.toUpperCase();
+  } else {
+    const first = str.charAt(0);
+    const rest = str.slice(1, str.length);
+    return first.toUpperCase() + rest;
+  }
+};
 
 module.exports = {
   escapeRegExp,
   parseText,
   filterInt,
-  filterFloat
+  filterFloat,
+  capitalize,
 };

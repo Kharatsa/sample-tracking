@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
-import WaitOnFetch from '../WaitOnFetch.jsx';
 import ChangesTable from './ChangesTable';
 
 const ChangesListing = (props) => {
@@ -11,12 +10,9 @@ const ChangesListing = (props) => {
   );
 };
 
-export const ChangesListingWrapped = WaitOnFetch(ChangesListing);
-
 export const Changes = React.createClass({
   propTypes: {
     fetchChanges: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     params: PropTypes.shape({
       page: PropTypes.number,
     }),
@@ -46,7 +42,7 @@ export const Changes = React.createClass({
   },
 
   render() {
-    return <ChangesListingWrapped {...this.props} />;
+    return <ChangesListing {...this.props} />;
   }
 });
 

@@ -1,11 +1,13 @@
 import {connect} from 'react-redux';
-import {getIsLoading} from '../selectors/uiselectors';
+import {getIsSampleReady} from '../selectors/uiselectors';
 import {fetchSampleDetail} from '../actions/actioncreators.js';
 import {Sample} from '../components';
+import {WaitOnReady, CallOnMount} from '../components/Utils';
 
-export default connect(
+export const SampleDetailContainer = connect(
   state => ({
-    isLoading: getIsLoading(state),
+    isReady: getIsSampleReady(state),
+    onMountFunc: 'fetchSampleDetail',
     selectedSampleId: state.selectedSampleId,
     samplesById: state.samplesById,
     changeIds: state.changeIds,
@@ -25,4 +27,6 @@ export default connect(
     metaLabTests: state.metaLabTestsByKey
   }),
   {fetchSampleDetail},
-)(Sample);
+)(CallOnMount(WaitOnReady(Sample)));
+
+export default SampleDetailContainer;

@@ -2,17 +2,26 @@
 
 FINISHED_MARKER=/home/stt/fin
 
+echo "Building with NODE_ENV=\"${NODE_ENV}\""
+
 if [ ! -f "$FINISHED_MARKER" ]; then
   gulp build # Compile/build app
-  build_exit_code=$?
 
-  if [ $build_exit_code -eq 0 ]
+  # Check for successful exit code
+  if [ "$?" -eq 0 ]
   then
     touch $FINISHED_MARKER
   else
-    exit $build_exit_code
+    exit $?
   fi
 
 fi
 
-npm start # Start the server
+if [ "$NODE_ENV" = "production" ]
+then
+  echo "Starting production server"
+  npm start
+else
+  echo "Starting development server"
+  node_modules/.bin/nodemon app/server
+fi

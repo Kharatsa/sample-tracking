@@ -2,22 +2,14 @@ import React, {PropTypes} from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import {Map as ImmutableMap, List} from 'immutable';
 import {SummaryFilter} from '../../api/records.js';
-import WaitOnFetch from '../WaitOnFetch.jsx';
-import StageSampleIdCounts from './StageSampleIdCounts';
 import StageArtifactCounts2 from './StageArtifactCounts2';
 import StageArtifactCounts3 from './StageArtifactCounts3';
-import StageLabCounts from './StageLabCounts';
-
-const WrappedSampleIdCounts = WaitOnFetch(StageSampleIdCounts);
-const WrappedArtifactCounts = WaitOnFetch(StageArtifactCounts2);
-const WrappedArtifactCounts2 = WaitOnFetch(StageArtifactCounts3);
-const WrappedLabCounts = WaitOnFetch(StageLabCounts);
 
 export const StageCounts2 = React.createClass({
   propTypes: {
+    isReady: PropTypes.bool.isRequired,
     artifactStageCounts: PropTypes.instanceOf(List).isRequired,
     fetchSummary: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     labTestCounts: PropTypes.instanceOf(List).isRequired,
     metaArtifacts: PropTypes.instanceOf(ImmutableMap),
     metaStages: PropTypes.instanceOf(ImmutableMap),
@@ -48,25 +40,21 @@ export const StageCounts2 = React.createClass({
 
   render() {
     const {
-      isLoading,
-      metaStages, sampleIdsStageCounts,
-      metaArtifacts, artifactStageCounts,
-      metaStatuses, metaLabTests, labTestCounts
+      isReady, metaStages, metaArtifacts, artifactStageCounts
     } = this.props;
 
     return (
       <div className='pure-g'>
         <div className='pure-u-1 pure-u-md-1-2'>
-          <WrappedArtifactCounts
-            isLoading={isLoading}
+          <StageArtifactCounts2
+            isReady={isReady}
             metaStages={metaStages}
             metaArtifacts={metaArtifacts}
             artifactStageCounts={artifactStageCounts}
           />
         </div>
       <div className='pure-u-1 pure-u-md-1-2'>
-          <WrappedArtifactCounts2
-            isLoading={isLoading}
+          <StageArtifactCounts3
             metaStages={metaStages}
             metaArtifacts={metaArtifacts}
             artifactStageCounts={artifactStageCounts}

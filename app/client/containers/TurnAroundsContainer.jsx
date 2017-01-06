@@ -1,12 +1,14 @@
 import {connect} from 'react-redux';
 import {fetchTurnArounds} from '../actions/actioncreators';
-import {getIsLoading} from '../selectors/uiselectors';
+import {getIsTATReady} from '../selectors/uiselectors';
 import {getStagesTATs, getEndToEndTAT} from '../selectors/dashboardselectors';
 import TurnArounds from '../components/Dashboard/TurnArounds';
+import {WaitOnReady, CallOnMount} from '../components/Utils';
 
 export const TurnAroundsContainer = connect(
   state => ({
-    isLoading: getIsLoading(state),
+    isReady: getIsTATReady(state),
+    onMountFunc: 'fetchTurnArounds',
     summaryFilter: state.summaryFilter,
     metaStages: state.metaStagesByKey,
     metaStatuses: state.metaStatusesByKey,
@@ -15,6 +17,6 @@ export const TurnAroundsContainer = connect(
     endToEndTAT: getEndToEndTAT(state)
   }),
   {fetchTurnArounds},
-)(TurnArounds);
+)(CallOnMount(WaitOnReady(TurnArounds)));
 
 export default TurnAroundsContainer;

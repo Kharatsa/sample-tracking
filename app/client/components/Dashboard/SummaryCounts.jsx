@@ -2,22 +2,22 @@ import React, {PropTypes} from 'react';
 import Iconic from '../Iconic';
 import HeroDataPanel from '../HeroDataPanel';
 
-const displayValue = (isFetchingData, val) => {
-  if (isFetchingData) {
+const displayValue = (val) => {
+  if (val === null) {
     return '-';
   }
-  return val && val.toLocaleString ? val.toLocaleString() : val;
+  return val.toLocaleString ? val.toLocaleString() : val;
 };
 
 export const SummaryCounts = ({
-  isFetchingData, numSampleIds, numArtifacts, numLabTests
+  numSampleIds=null, numArtifacts=null, numLabTests=null
 }) => {
   return (
     <div className='pure-g dashboard-top-bar'>
       <div className='pure-u-1 pure-u-md-1-3'>
         <HeroDataPanel header='Total Sample IDs'>
           <span>
-            {displayValue(isFetchingData, numSampleIds)}
+            {displayValue(numSampleIds)}
             <Iconic className='hero-data-icon stt-icon' name='clipboard'/>
           </span>
 
@@ -26,7 +26,7 @@ export const SummaryCounts = ({
       <div className='pure-u-1 pure-u-md-1-3'>
         <HeroDataPanel header='Total Samples & Forms'>
           <span>
-            {displayValue(isFetchingData, numArtifacts)}
+            {displayValue(numArtifacts)}
             <Iconic className='hero-data-icon stt-icon' name='droplet'/>
           </span>
         </HeroDataPanel>
@@ -35,7 +35,7 @@ export const SummaryCounts = ({
       <div className='pure-u-1 pure-u-md-1-3'>
         <HeroDataPanel header='Total Lab Tests'>
           <span>
-            {displayValue(isFetchingData, numLabTests)}
+            {displayValue(numLabTests)}
             <Iconic className='hero-data-icon stt-icon' name='medical-cross'/>
           </span>
         </HeroDataPanel>
@@ -45,10 +45,9 @@ export const SummaryCounts = ({
 };
 
 SummaryCounts.propTypes = {
-  isFetchingData: PropTypes.bool.isRequired,
-  numSampleIds: PropTypes.number.isRequired,
-  numArtifacts: PropTypes.number.isRequired,
-  numLabTests: PropTypes.number.isRequired
+  numSampleIds: PropTypes.number,
+  numArtifacts: PropTypes.number,
+  numLabTests: PropTypes.number,
 };
 
 export default SummaryCounts;

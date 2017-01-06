@@ -65,7 +65,7 @@ periodically renew the LetsEncrypt certificates. To add a new cron job, run
 convenient), and add the following line. Make certain the crontab file ends in
 a newline, or a comment line before saving.
 
-    0 0 1 1 * /home/ubuntu/stt/renew_certs.sh >> /var/log/letsencrypt/renew.log 2>&1
+    0 0 1 * * /home/ubuntu/stt/renew_certs.sh >> /var/log/letsencrypt/renew.log 2>&1
     #
 
 When this setup is complete, the STT dashboard application should be

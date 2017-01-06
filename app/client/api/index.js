@@ -20,12 +20,19 @@ const locationURLParams = ({facilityKey, regionKey}) => {
 };
 
 const dateURLParams = ({afterDate, beforeDate}) => {
-  if (!(afterDate && beforeDate)) {
-    throw new Error('Missing required parameter afterDate or beforeDate');
+  let afterDatePart;
+  if (afterDate) {
+    afterDatePart = `?afterDate=${afterDate.toISOString()}`;
+  } else {
+    afterDatePart = '';
   }
 
-  const afterDatePart = `?afterDate=${afterDate.toISOString()}`;
-  const beforeDatePart = `&beforeDate=${beforeDate.toISOString()}`;
+  let beforeDatePart;
+  if (beforeDate) {
+    beforeDatePart = `&beforeDate=${beforeDate.toISOString()}`;
+  } else {
+    beforeDatePart = '';
+  }
 
   return `${afterDatePart}${beforeDatePart}`;
 };
@@ -69,8 +76,13 @@ export const getChanges = (filter={}, page=1, callback) => {
   });
 };
 
-export const getSummary = (filter={}, callback) => {
-  const url = filteredURL('summary', filter);
+export const getSummary = (filter, callback) => {
+  let url;
+  if (filter) {
+    url = filteredURL('summary', filter);
+  } else {
+    url = '/stt/summary';
+  }
   return request(url, (err, res) => {
     if (err) {
       return callback(err);

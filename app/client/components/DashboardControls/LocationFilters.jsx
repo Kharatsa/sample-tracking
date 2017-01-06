@@ -4,7 +4,7 @@ import Select from 'react-select';
 
 export const LocationFilters = React.createClass({
   propTypes: {
-    isLoading: PropTypes.bool.isRequired,
+    isReady: PropTypes.bool.isRequired,
     metaRegions: PropTypes.object.isRequired,
     filteredMetaFacilities: PropTypes.object.isRequired,
     filterRegionKey: PropTypes.string,
@@ -49,10 +49,8 @@ export const LocationFilters = React.createClass({
 
   render() {
     const {
-      isLoading,
-      metaRegions,
-      filteredMetaFacilities,
-      filterRegionKey, filterFacilityKey
+      isReady, metaRegions, filteredMetaFacilities, filterRegionKey,
+      filterFacilityKey
     } = this.props;
 
     const regionKey = filterRegionKey;
@@ -71,7 +69,7 @@ export const LocationFilters = React.createClass({
         <label htmlFor='regionFilter'>Laboratory</label>
         <Select
             id='regionFilter'
-            isLoading={isLoading}
+            isLoading={!isReady}
             matchPos='any'
             matchProp='label'
             placeholder='Select Laboratory...'
@@ -83,7 +81,7 @@ export const LocationFilters = React.createClass({
         <Select
             id='facilityFilter'
             disabled={regionKey === null}
-            isLoading={isLoading}
+            isLoading={!isReady}
             matchPos='any'
             matchProp='label'
             placeholder='Select Facility...'
@@ -91,7 +89,8 @@ export const LocationFilters = React.createClass({
             options={facilityOptions}
             onChange={this.selectFacility}
         />
-      </div>);
+      </div>
+    );
   }
 });
 
